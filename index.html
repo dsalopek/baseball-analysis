@@ -3,7 +3,8 @@
 <style>
 
 	body {
-		font: 10px sans-serif;
+		font: 15px sans-serif;
+		cursor: crosshair;
 	}
 	.axis path,
 	.axis line {
@@ -17,11 +18,10 @@
 	}
 	div.tooltip {
 		position: absolute;
-		text-align: left;
+		text-align: center;
 		padding: 5px;
-		font: 12px sans-serif;
 		font-family: Avenir, serif;
-		background: black;
+		background: slategray;
 		color: white;
 		border: 1px;
 		border-radius: 5px;
@@ -33,6 +33,30 @@
 	.label {
 		font-family: Avenir, serif;
 	}
+	table {
+		width: 100%;
+		margin: auto;
+		border-collapse: collapse;
+	}
+	th, td {
+		border: 1px solid white;
+		border-radius: 5px;
+	}
+	h2 {
+		display: inline;
+		padding-top: 0px;
+		padding-right: 30px;
+		padding-left: 0px;
+		padding-bottom: 0px;
+	}
+	img {
+		vertical-align: middle;
+		horiz-align: right;
+	}
+	.tt {
+		margin: 5px;
+	}
+
 
 </style>
 <body>
@@ -41,19 +65,20 @@
 
 		var div = d3.select("body").append("div")
 			.attr("class", "tooltip")
+			.attr("id", "toolt")
 			.style("opacity", 0);
 
-		var margin = {top: 20, right: 20, bottom: 30, left: 40},
-			width = window.innerWidth - margin.left - margin.right - 50;//1200 - margin.left - margin.right,
-			height = window.innerHeight - margin.top - margin.bottom - 50;//600 - margin.top - margin.bottom;
+		var margin = {top: 20, right: 20, bottom: 50, left: 40},
+			width = window.innerWidth - margin.left - margin.right - 20;//1200 - margin.left - margin.right,
+		height = (window.innerHeight - margin.top - margin.bottom) - 80;//600 - margin.top - margin.bottom;
 
 		var x = d3.scale.linear()
-			.range([0, width - 40]);
+			.range([0, width - 200]);
 
 		var y = d3.scale.linear()
 			.range([height, 40]);
 
-		var color = d3.scale.category10();
+		var color = d3.scale.category20();
 
 		var xAxis = d3.svg.axis()
 			.scale(x)
@@ -92,7 +117,7 @@
 				.call(xAxis)
 				.append("text")
 				.attr("class", "label")
-				.attr("x", width - 40)
+				.attr("x", width - 200)
 				.attr("y", -6)
 				.style("text-anchor", "end")
 				.text("Runs");
@@ -160,16 +185,22 @@
 						});
 					div.transition()
 						.style("opacity", 1.0);
-					div.html("<span><strong><u>Name: " + d.fname + " " + d.lname + "</u></strong></span><br>" +
-						"<span>Team: " + d.team + "</span><br>" +
-						"<span>Position: " + d.position + "</span><br>" +
-						"<span>RBI: " + d.rbi + "</span><br>" +
-						"<span>AB: " + d.ab + "</span><br>" +
-						"<span>Runs: " + d.r + "</span><br>" +
-						"<span>Hits: " + d.h + "</span><br>" +
-						"<span>BA: " + d.ba + "</span><br>")
-						.style("left", (d3.event.pageX) + "px")
-						.style("top", (d3.event.pageY + 10) + "px")
+					div.html("<span id='tt'><div class='tt'><h2>" + d.fname + " " + d.lname + "</h2><img src='./logos/" + d.team + ".png' alt='" + d.name + "_logo' height='50' width='50'></div>" +
+						"<table>" +
+						"<tr><th>Pos</th><th>AB</th><th>Runs</th><th>Hits</th><th>RBI</th><th>Avg</th></tr>" +
+						"<tr><td>" + d.position + "</td>" +
+						"<td>" + d.ab + "</td>" +
+						"<td> " + d.r + " </td>" +
+						"<td> " + d.h + " </td>" +
+						"<td> " + d.rbi + " </td>" +
+						"<td> " + d.ba + " </td>" +
+						"</tr>" +
+						"</table></span>")
+						.style("left", function () {
+							return findsize(d3.event.pageX) + "px";
+						})
+						.style("top", (d3.event.pageY) + "px")
+					findsize();
 				})
 				.on("mouseout", function (d) {
 					svg.selectAll(".dot")
@@ -187,7 +218,7 @@
 				.enter().append("g")
 				.attr("class", "legend")
 				.attr("transform", function (d, i) {
-					return "translate(0," + i * 20 + ")";
+					return "translate(0," + i * 25 + ")";
 				})
 				.on("mouseover", function (d) {
 					svg.selectAll(".legend")
@@ -218,19 +249,18 @@
 						});
 				});
 
-			legend.append("rect")
-				.attr("x", width)
-				.attr("y", 61)
-				.attr("width", 18)
-				.attr("height", 18)
+			legend.append("circle")
+				.attr("cx", width - 115)
+				.attr("cy", 70)
+				.attr("r", 10)
 				.style("fill", color);
 
 			legend.append("text")
-				.attr("x", width)
+				.attr("class", "legtext")
+				.attr("x", width - 100)
 				.attr("y", 70)
 				.attr("dy", ".35em")
 				.attr("class", "label")
-				.style("text-anchor", "end")
 				.text(function (d) {
 					return d;
 				});
@@ -243,6 +273,12 @@
 			y = y - 0.23;
 			y = y / 0.1;
 			return (y);
+		}
+		function findsize(x) {
+			if(x < document.getElementById("tt").offsetWidth / 2)
+				return 10;
+			else
+				return x - document.getElementById("tt").offsetWidth / 2;
 		}
 	</script>
 	<ul>
