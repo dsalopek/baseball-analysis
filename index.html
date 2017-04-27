@@ -5,6 +5,7 @@
 	body {
 		font: 15px sans-serif;
 		cursor: crosshair;
+		margin: 0;
 	}
 	.axis path,
 	.axis line {
@@ -56,10 +57,72 @@
 	.tt {
 		margin: 5px;
 	}
+	.navBar ul {
+		background: #263238;
+		list-style: none;
+		padding: 0;
+		margin: 0;
+		overflow: auto;
+		text-align: center;
+		vertical-align: middle;
+	}
+	.navBar li {
+		float: left;
+	}
+	.navBar li a {
+		height: 22px;
+		display: inline-block;
+		color: #f2f2f2;
+		text-align: center;
+		padding: 14px 16px;
+		text-decoration: none;
+		font-size: 17px;
+	}
+	.navBar li.rli a {
+		height: 50px;
+		display: inline-block;
+		color: #f2f2f2;
+		text-align: center;
+		padding: 0;
+		text-decoration: none;
+		font-size: 17px;
+	}
+	.active {
+		box-shadow: 0 -5px 0 #4DD0E1 inset;
+	}
+	/*.navBar li a:hover {*/
+	/*background: #37474F;*/
+	/*!*box-shadow: 0 -5px 0 #4DD0E1 inset;*!*/
+	/*}*/
+	a:hover {
+		background: #37474F;
+		/*box-shadow: 0 -5px 0 #4DD0E1 inset;*/
+	}
+	.navBar img {
+		padding: 5px;
+		height: 40px;
+		vertical-align: middle;
+	}
 
 
 </style>
 <body>
+	<!--&lt;!&ndash;<div class="navBar">&ndash;&gt;-->
+	<!--&lt;!&ndash;<ul>&ndash;&gt;-->
+	<!--<li><a href="https://dsalopek.github.io/baseball-analysis/" id="scatter-link" class="active">Scatter</a></li>-->
+	<!--<li><a href="https://dsalopek.github.io/baseball-map/" id="map-link">Map</a></li>-->
+	<!--&lt;!&ndash;<li><a class="rli" href="" style="float: right"><img src="./logos/github-white.png" alt="github"></a></li>&ndash;&gt;-->
+	<!--&lt;!&ndash;</ul>&ndash;&gt;-->
+	<!--&lt;!&ndash;</div>&ndash;&gt;-->
+	<div class="navBar">
+		<ul>
+			<li><a href="https://dsalopek.github.io/baseball-analysis/" id="scatter-link" class="active">Scatter</a>
+			</li>
+			<li><a href="https://dsalopek.github.io/baseball-map/" id="map-link">Map</a></li>
+			<li class="rli" style="float: right;"><a href="https://github.com/dsalopek/baseball-analysis"><img
+					src="./logos/github-white.png" alt="github"></a></li>
+		</ul>
+	</div>
 	<script src="//d3js.org/d3.v3.min.js"></script>
 	<script>
 
@@ -275,19 +338,11 @@
 			return (y);
 		}
 		function findsize(x) {
-			if(x < document.getElementById("tt").offsetWidth / 2)
+			if (x < document.getElementById("tt").offsetWidth / 2) {
 				return 10;
-			else
+			} else {
 				return x - document.getElementById("tt").offsetWidth / 2;
+			}
 		}
 	</script>
-	<ul>
-		<li>X - Axis: Player Runs</li>
-		<li>Y - Axis: Team Win Percentage</li>
-		<li>Scatter Point: Player</li>
-		<li>Scatter Point Size: Player Hits</li>
-		<li>Scatter Point Opacity: Batting Average</li>
-		<li>Scatter Point Color: Team</li>
-	</ul>
-	<a href="https://dsalopek.github.io/baseball-map/">Click to view map</a>
 </body>
