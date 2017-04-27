@@ -1,0 +1,16 @@
+city,name,lat,lon,wins,loss,percent
+Texas,Rangers,32.7357,-97.1081,95,67,0.586
+Cleveland,Indians,41.4993,-81.6944,94,67,0.584
+Boston,Red Sox,42.3601,-71.0589,93,69,0.574
+Toronto,Blue Jays,43.6532,-79.3832,89,73,0.549
+Baltimore,Orioles,39.2904,-76.6122,89,73,0.549
+Detroit,Tigers,42.3314,-83.0458,86,75,0.534
+Seattle,Mariners,47.6062,-122.3321,86,76,0.531
+Houston,Astros,29.7604,-95.3698,84,78,0.519
+New York,Yankees,40.7145,-74.00712,84,78,0.519
+Kansas City,Royals,39.0997,-94.5786,81,81,0.500
+Chicago,White Sox,41.8781,-87.6298,78,84,0.481
+Los Angeles,Angels,34.0522,-118.2437,74,88,0.457
+Oakland,Athletics,37.8044,-122.2711,69,93,0.426
+Tampa Bay,Rays,27.7634,-82.5437,68,94,0.420
+Minnesota,Twins,44.9537,-93.09,59,103,0.364
