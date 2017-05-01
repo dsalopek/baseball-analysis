@@ -25,8 +25,8 @@
       <file leaf-file-name="index.html" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/index.html">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="174">
-              <caret line="141" column="28" lean-forward="false" selection-start-line="141" selection-start-column="28" selection-end-line="141" selection-end-column="28" />
+            <state relative-caret-position="232">
+              <caret line="118" column="133" lean-forward="false" selection-start-line="118" selection-start-column="133" selection-end-line="118" selection-end-column="133" />
               <folding>
                 <element signature="n#style#0;n#li#2;n#ul#0;n#div#0;n#body#0;n#!!top" expanded="true" />
               </folding>
@@ -37,8 +37,8 @@
       <file leaf-file-name="index.html" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/baseball-map/index.html">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="-2755">
-              <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+            <state relative-caret-position="145">
+              <caret line="105" column="133" lean-forward="true" selection-start-line="105" selection-start-column="106" selection-end-line="105" selection-end-column="133" />
               <folding>
                 <element signature="n#style#0;n#li#2;n#ul#0;n#div#0;n#body#0;n#!!top" expanded="true" />
               </folding>
@@ -263,12 +263,12 @@
       <workItem from="1493312690309" duration="7440000" />
       <workItem from="1493403613477" duration="1237000" />
       <workItem from="1493405118519" duration="31000" />
-      <workItem from="1493414165205" duration="1412000" />
+      <workItem from="1493414165205" duration="1819000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="40219000" />
+    <option name="totallyTimeSpent" value="40626000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="0" y="22" width="1440" height="827" extended-state="6" />
@@ -611,8 +611,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/baseball-map/index.html">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-2755">
-          <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+        <state relative-caret-position="145">
+          <caret line="105" column="133" lean-forward="true" selection-start-line="105" selection-start-column="106" selection-end-line="105" selection-end-column="133" />
           <folding>
             <element signature="n#style#0;n#li#2;n#ul#0;n#div#0;n#body#0;n#!!top" expanded="true" />
           </folding>
@@ -621,8 +621,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/index.html">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="174">
-          <caret line="141" column="28" lean-forward="false" selection-start-line="141" selection-start-column="28" selection-end-line="141" selection-end-column="28" />
+        <state relative-caret-position="232">
+          <caret line="118" column="133" lean-forward="false" selection-start-line="118" selection-start-column="133" selection-end-line="118" selection-end-column="133" />
           <folding>
             <element signature="n#style#0;n#li#2;n#ul#0;n#div#0;n#body#0;n#!!top" expanded="true" />
           </folding>
