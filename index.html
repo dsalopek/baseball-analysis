@@ -34,6 +34,11 @@
 	.label {
 		font-family: Avenir, serif;
 	}
+	.label-team {
+		font-family: Avenir, serif;
+		text-align: center;
+		padding: 0px 0;
+	}
 	table {
 		width: 100%;
 		margin: auto;
@@ -55,6 +60,7 @@
 		padding-bottom: 0px;
 	}
 	img {
+		margin: auto;
 		vertical-align: middle;
 		horiz-align: right;
 	}
@@ -102,21 +108,17 @@
 		height: 40px;
 		vertical-align: middle;
 	}
+
+
 </style>
 <body>
-	<!--&lt;!&ndash;<div class="navBar">&ndash;&gt;-->
-	<!--&lt;!&ndash;<ul>&ndash;&gt;-->
-	<!--<li><a href="https://dsalopek.github.io/baseball-analysis/" id="scatter-link" class="active">Scatter</a></li>-->
-	<!--<li><a href="https://dsalopek.github.io/baseball-map/" id="map-link">Map</a></li>-->
-	<!--&lt;!&ndash;<li><a class="rli" href="" style="float: right"><img src="./logos/github-white.png" alt="github"></a></li>&ndash;&gt;-->
-	<!--&lt;!&ndash;</ul>&ndash;&gt;-->
-	<!--&lt;!&ndash;</div>&ndash;&gt;-->
 	<div class="navBar">
 		<ul>
 			<li><a href="https://dsalopek.github.io/baseball-analysis/" id="scatter-link" class="active">Scatter</a>
 			</li>
 			<li><a href="baseball-map/index.html" id="map-link">Map</a></li>
-			<li class="rli" style="float: right;"><a href="https://github.com/dsalopek/baseball-analysis" title="Link to GitHub page"><img
+			<li class="rli" style="float: right;"><a href="https://github.com/dsalopek/baseball-analysis"
+													 title="Link to GitHub page"><img
 					src="./logos/github-white.png" alt="github"></a></li>
 		</ul>
 	</div>
@@ -141,7 +143,7 @@
 		var y = d3.scale.linear()
 			.range([height, 0]);
 
-		var color = d3.scale.category20();
+		var color = d3.scale.category10();
 
 		var xAxis = d3.svg.axis()
 			.scale(x)
@@ -167,7 +169,6 @@
 				d.r = +d.r;
 				d.winper = +d.winper;
 			});
-
 			x.domain(d3.extent(data, function (d) {
 				return d.r;
 			})).nice();
@@ -175,14 +176,50 @@
 				return d.winper;
 			})).nice();
 
+
+			data.forEach(function (d, j) {
+				var startAngle = 0;
+				var sector = 5;
+
+
+				for (var i = 0; i < sector; i++) {
+					arc = d3.svg.arc()
+						.innerRadius(0)
+						.outerRadius(normalize(i, d))
+						.startAngle(startAngle)
+						.endAngle((2 * Math.PI) * (i + 1) / sector);
+					startAngle = (2 * Math.PI) * (i + 1) / sector;
+
+					svg.append("path")
+						.attr("class", "arc" + d.lname)
+						.data(data)
+						.attr("transform", "translate(" + x(d.r) + "," + y(d.winper) + ")")
+						.attr("opacity", 0.6)
+						.attr("fill", function () {
+							return color(i)
+						})
+						.attr("d", arc);
+					//console.log(data[j])
+				}
+
+				svg.append("image")
+					.attr("class", "img")
+					//.attr("transform", "translate(" + x(d.r) + "," + y(d.winper) + ")")
+					.attr("x", x(d.r) - 7.5)
+					.attr("y", y(d.winper) - 7.5)
+					.attr('width', "15px")
+					.attr('height', "15px")
+					.attr("xlink:href", "./logos/" + d.team + ".png")
+
+			});
 			svg.append("g")
 				.attr("class", "x axis")
 				.attr("transform", "translate(0," + height + ")")
 				.call(xAxis)
 				.append("text")
 				.attr("class", "label")
-				.attr("x", width - 200)
-				.attr("y", -6)
+				.attr("x", width / 2 - 50)
+				.attr("y", 35)
 				.style("text-anchor", "end")
 				.text("Runs");
 
@@ -192,147 +229,111 @@
 				.append("text")
 				.attr("class", "label")
 				.attr("transform", "rotate(-90)")
-				.attr("y", 6)
-				.attr("x", -40)
+				.attr("y", -55)
+				.attr("x", -height / 2 + 50)
 				.attr("dy", ".71em")
 				.style("text-anchor", "end")
 				.text("Win %");
-
-			svg.selectAll(".dot")
-				.data(data)
-				.enter().append("circle")
-				.attr("class", "dot")
-				.attr("r", function (d) {
-					return normalize(d.h);
-				})
-				.attr("cx", function (d) {
-					return x(d.r);
-				})
-				.attr("cy", function (d) {
-					return y(d.winper);
-				})
-				.style("fill-opacity", function (d) {
-					return baOpac(d.ba);
-				})
-				.style("fill", function (d) {
-					return color(d.team);
-				})
-
-				.on("mouseover", function (d) {
-					svg.selectAll(".dot")
-						.style("fill-opacity", function (d1) {
-							if (d == d1) {
-								return baOpac(d.ba);
-							}
-							else {
-								return 0;
-							}
-						});
-					svg.selectAll(".legend")
-						.style("opacity", function (d1) {
-							if (d.team == d1) {
-								return 1;
-							}
-							else {
-								return 0.1;
-							}
-						});
-					div.transition()
-						.style("opacity", 1.0);
-					div.html("<span id='tt'><div class='tt'><h2>" + d.fname + " " + d.lname + "</h2><img src='./logos/" + d.team + ".png' alt='" + d.name + "_logo' height='50' width='50'></div>" +
-						"<table>" +
-						"<tr><th>Pos</th><th>AB</th><th>Runs</th><th>Hits</th><th>RBI</th><th>Avg</th></tr>" +
-						"<tr><td>" + d.position + "</td>" +
-						"<td>" + d.ab + "</td>" +
-						"<td> " + d.r + " </td>" +
-						"<td> " + d.h + " </td>" +
-						"<td> " + d.rbi + " </td>" +
-						"<td> " + d.ba + " </td>" +
-						"</tr>" +
-						"</table></span>")
-						.style("left", function () {
-							return findsize(d3.event.pageX) + "px";
-						})
-						.style("top", (d3.event.pageY) + "px")
-					findsize();
-				})
-				.on("mouseout", function (d) {
-					svg.selectAll(".dot")
-						.style("fill-opacity", function (d1) {
-							return baOpac(d1.ba);
-						});
-					svg.selectAll(".legend")
-						.style("opacity", 1);
-					div.transition()
-						.style("opacity", 0);
-				});
-
-			var legend = svg.selectAll(".legend")
-				.data(color.domain())
-				.enter().append("g")
-				.attr("class", "legend")
-				.attr("transform", function (d, i) {
-					return "translate(0," + i * 25 + ")";
-				})
-				.on("mouseover", function (d) {
-					svg.selectAll(".legend")
-						.style("opacity", function (d1) {
-							if (d == d1) {
-								return 1;
-							}
-							else {
-								return 0.1;
-							}
-						});
-					svg.selectAll(".dot")
-						.style("fill-opacity", function (d1) {
-							if (d == d1.team) {
-								return baOpac(d.ba);
-							}
-							else {
-								return 0;
-							}
-						})
-				})
-				.on("mouseout", function (d) {
-					svg.selectAll(".legend")
-						.style("opacity", 1);
-					svg.selectAll(".dot")
-						.style("fill-opacity", function (d) {
-							return baOpac(d.ba);
-						});
-				});
-
-			legend.append("circle")
-				.attr("cx", width - 115)
-				.attr("cy", 70)
-				.attr("r", 10)
-				.style("fill", color);
-
-			legend.append("text")
-				.attr("class", "legtext")
-				.attr("x", width - 100)
-				.attr("y", 70)
-				.attr("dy", ".35em")
-				.attr("class", "label")
-				.text(function (d) {
-					return d;
-				});
-
 		});
-		function normalize(x) {
-			return (x / 216) * 20;
+
+		var q = 0;
+		d3.csv("teamdata.csv", function (data) {
+			data.forEach(function (d, j) {
+				var startAngle = 0;
+				var sector = 5;
+
+				console.log(d);
+
+				for (var i = 0; i < sector; i++) {
+					arc = d3.svg.arc()
+						.innerRadius(0)
+						.outerRadius(normalize(i, d))
+						.startAngle(startAngle)
+						.endAngle((2 * Math.PI) * (i + 1) / sector);
+					startAngle = (2 * Math.PI) * (i + 1) / sector;
+
+					svg.append("path")
+					//.attr("class", "arc" + d.lname)
+						.data(data)
+						.attr("transform", "translate(" + (width - 150) + "," + 42 * q + ")")
+						.attr("opacity", 0.6)
+						.attr("fill", color(i))
+						.attr("d", arc);
+
+					//console.log(data[j])
+				}
+				svg.append("text")
+					.attr("class", "label-team")
+					.attr("x", width - 110)
+					.attr("y", 3 + (42 * q))
+					//.style("text-anchor", "end")
+					.text(d.team);
+
+				svg.append("image")
+					.attr("class", "img")
+					//.attr("transform", "translate(" + x(d.r) + "," + y(d.winper) + ")")
+					.attr("x", width - 140)
+					.attr("y", (42 * q) - 13)
+					.attr('width', "25px")
+					.attr('height', "25px")
+					.attr("xlink:href", "./logos/" + d.team + ".png");
+				q++;
+			})
+		});
+
+
+		function normalize(w, x) {
+			r = 25;
+			switch (w) {
+				case 0:
+					return (x.ab / 672) * r;
+					break;
+				case 1:
+					return (x.h / 216) * r;
+					break;
+				case 2:
+					return (x.r / 123) * r;
+					break;
+				case 3:
+					return (x.rbi / 127) * r;
+					break;
+				case 4:
+					if (x > 0.4) {
+						return r;
+					} else {
+						return (x.ba / 0.4) * r;
+					}
+					break;
+				default:
+					return 0;
+			}
 		}
-		function baOpac(y) {
-			y = y - 0.23;
-			y = y / 0.1;
-			return (y);
-		}
-		function findsize(x) {
-			if (x < document.getElementById("tt").offsetWidth / 2) {
-				return 10;
-			} else {
-				return x - document.getElementById("tt").offsetWidth / 2;
+		function normalizet(w, x) {
+			console.log("called normalT");
+			r1 = 25;
+			//console.log(x,w);
+			switch (w) {
+				case 0:
+					return (x.ab / 243) * r1;
+					break;
+				case 1:
+					return (x.h / 63) * r1;
+					break;
+				case 2:
+					return (x.r / 32) * r1;
+					break;
+				case 3:
+					return (x.rbi / 31) * r1;
+					break;
+				case 4:
+					if (x > 0.232) {
+						return r1;
+					} else {
+						return (x.ba / 0.232) * r1;
+					}
+					break;
+				default:
+					return 0;
 			}
 		}
 	</script>
